@@ -41,9 +41,7 @@
 <script>
   document.querySelector('form').addEventListener('click', function(event) {
     alert(`target => ${event.target.tagName}, this => ${this.tagName}`)
-  })<img width="457" alt="event-bubble" src="https://user-images.githubusercontent.com/58321856/113536971-54ba3800-9612-11eb-8b26-63a3ae568f49.png">![Uploading event-bubble.png…]()
-
-
+  })
 </script>
 ```
 1. form 안에 어떤 요소를 클릭해도 alert가 나옵니다.
