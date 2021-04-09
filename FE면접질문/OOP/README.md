@@ -4,6 +4,7 @@
 - 객체 지향 프로그래밍은 컴퓨터 프로그래밍 패러다임 중 하나입니다.
 - 객체의 관점으로 프로그래밍을 하는 방식입니다.
 
+---
 
 ## OOP의 4가지 특징
 ### 1. 캡슐화
@@ -23,3 +24,17 @@
 - 형태는 같지만 다른 기능을 합니다.
 - 오버로딩(Overloading): 동일한 메소드가 매개변수에 따라서 다르게 동작함
 - 오버라이딩(Overriding): 상속받은 메소드를 용도에 따라 재정의
+
+---
+
+## OOP의 5가지 원칙 (SOLID)
+### 1. 단일 책임의 원칙 (Single Responsibility Principle)
+- 모든 클래스는 하나의 책임(기능, 역할)만 가집니다.
+### 2. 개방-폐쇄 원칙 (Open Closed Principle)
+- class(=객체, 함수 등)는 확장에는 개방 되어야하나, 수정에는 폐쇄 되어야합니다.
+### 3. 리스코프 치환 원칙 (Liskov Substitution Principle)
+- 서브 타입은 자신의 기반(상위) 타입으로 교체할 수 있어야 합니다.
+### 4. 인터페이스 분리 원칙 (Interface Segregation Principle)
+- 클라이언트는 자신이 사용하지 않는 메소드에 의존 관계를 맺으면 안 됩니다.
+### 5. 의존 역전 원칙 (Dependency Inversion Principle)
+- 고차원 module/class는 저차원 module/class에 의존하면 안된다는 원칙입니다.
