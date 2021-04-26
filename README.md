@@ -10,3 +10,5 @@
 - [자바스크립트 비동기 처리](https://github.com/HANYUNSEONG/TIL/tree/main/Javascript/%EB%B9%84%EB%8F%99%EA%B8%B0%EC%B2%98%EB%A6%AC)
 - [이벤트 버블링과 캡쳐링](https://github.com/HANYUNSEONG/TIL/tree/main/Javascript/%EC%9D%B4%EB%B2%A4%ED%8A%B8%20%EB%B2%84%EB%B8%94%EB%A7%81%EA%B3%BC%20%EC%BA%A1%EC%B3%90%EB%A7%81)
 - [var, let, const](https://github.com/HANYUNSEONG/TIL/blob/main/Javascript/const,%20let,%20var/README.md)
+- [ES6](https://github.com/HANYUNSEONG/TIL/tree/main/Javascript/ES6)
+- [함수 표현식과 함수 선언식](https://github.com/HANYUNSEONG/TIL/tree/main/Javascript/%ED%95%A8%EC%88%98%20%ED%91%9C%ED%98%84%EC%8B%9D%2C%20%ED%95%A8%EC%88%98%20%EC%84%A0%EC%96%B8%EC%8B%9D)
