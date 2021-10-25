@@ -1,10 +1,12 @@
 # Javascript this
 
-Javascript의 this 키워드에 대해서 정리하자
+![this](https://user-images.githubusercontent.com/58321856/138733876-a696ab89-34d5-4f49-bc4a-d3732486640f.png)
+- Javascript의 this 키워드에 대해서 정리하자
 
 ## 전역 문맥 (기본 바인딩)
 
-첫번째로 크롬 개발자 도구를 열어서 냅다 this를 찍어보자
+첫번째로 크롬 개발자 도구를 열어서 냅다 this를 찍어보자!
+
 
 ```js
 console.log(this);
