@@ -19,3 +19,9 @@ ISO/IEC 14882에서 Side Effect라는 용어를 다음과 같이 정의했다.
 사실 사이드 이펙트라는 용어는 **관점, 사용하는 곳에 따라 다양한 의미를 지닐 수 있다.**  
 하지만 일반적으로 사이드 이펙트는 위에서 설명한 것과 같다.  
 한마디로 위에 설명을 정리해보았다. **"의도하지 않은 결과, 예상치 못한 효과가 발생한다."**
+
+### 참고 사이트
+
+- [위키백과 - 부작용 (컴퓨터 과학)](<https://ko.wikipedia.org/wiki/%EB%B6%80%EC%9E%91%EC%9A%A9_(%EC%BB%B4%ED%93%A8%ED%84%B0_%EA%B3%BC%ED%95%99)>)
+- [인프런 - 사이드 이펙트에 관한 질문글](https://www.inflearn.com/questions/12660)
+- [hyeonk lab - 프로그래밍에서 Side Effect란?](https://hyeonk-lab.tistory.com/43)
