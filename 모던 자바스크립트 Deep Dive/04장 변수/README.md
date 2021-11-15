@@ -254,3 +254,152 @@ var 키워드로 선언한 변수는 선언과 동시에 undefined로 초기화�
 >
 > 자바스크립트와 같은 매니지드 언어는 메모리 할당 및 해제 즉 메모리 관리 기능을 언어에서 담당하고 개발자의 직접적인 메모리 제어를 허용하지 않는다. 더 이상 사용하지 않는 메모리의 해제는 가비지 콜렉터가 수행한다.
 > 매니지드 언어는 개발자의 역량에 의존하는 부분이 상대적으로 적어져 어느 정도 일정한 생산성을 확보할 수 있는 장점이 있지만 성능 면에서 어느 정도의 손실을 감수해야 한다.
+
+## 4-7 식별자 네이밍 규칙
+
+앞에서 말한 것 처럼 식별자는 어떤 값을 구별해서 식별할 수 있는 고유한 이름을 말한다.  
+식별자는 다음과 같은 네이밍 규칙을 준수해야 한다.
+
+- 식별자는 특수문자를 제외한 문자, 숫자, 언더스코어(\_), 달러 기호($)를 포함할 수 있다.
+- 단, 식별자는 특수문자를 제외한 문자, 언더스코어(\_), 달러 기호($)로 시작해야 한다. 숫자로 시작하는 것은 허용하지 않는다.
+- 예약어는 식별자로 사용할 수 없다.
+  <details markdown="1">
+  <summary>예약어</summary>
+    <pre>
+      - await
+      - break
+      - case
+      - catch
+      - class
+      - const
+      - continue
+      - debugger
+      - default
+      - delete
+      - do
+      - else
+      - enum
+      - export
+      - extends
+      - false
+      - finally
+      - for
+      - function
+      - if
+      - implements*
+      - import
+      - in
+      - instanceof
+      - interface*
+      - let*
+      - new
+      - null
+      - package*
+      - private*
+      - protected*
+      - public*
+      - return
+      - super
+      - static*
+      - switch
+      - this
+      - throw
+      - true
+      - try
+      - typeof
+      - var
+      - void
+      - while
+      - with
+      - yield*
+
+       * 표시가 된 건 식별자로 사용 가능하나 stirct mode에서는 사용 불가
+
+    </pre>
+  </details>
+
+---
+
+변수 이름도 식별자이므로 위 네이밍 규칙을 따라야 한다.
+
+```js
+var person, $elem, _name, first_name, val1;
+```
+
+위 예제 코드 처럼 하나의 문에서 여러 개를 한번에 선언할 수 있다. 하지만 가독성이 나빠지므로 권장하지 않는다.
+
+---
+
+```js
+var 이름;
+```
+
+ES5부터 식별자를 만들 때 유니코드 문자를 허용하므로 알파벳 외의 한글이나 일본어 식별자도 사용할 수 있다. 하지만 알파벳 외의 유니코드 문자로 명명된 식별자를 사용하는 것은 바람직하지 않다.
+
+---
+
+```js
+var first-name; // Uncaught SyntaxError: Unexpected token '-'
+var 1st;        // Uncaught SyntaxError: Invalid or unexpected token
+var this;       // Uncaught SyntaxError: Unexpected token 'this'
+```
+
+명명 규칙에 위배하므로 변수 이름으로 사용할 수 없다.
+
+---
+
+```js
+var fistname;
+var firtsName;
+var FIRSTNAME;
+```
+
+자바스크립트는 대소문자를 구별하므로 위 3개 변수는 각각 별개의 변수다.
+
+---
+
+```js
+var x = 3;
+var score = 100;
+```
+
+위 코드에 x 변수처럼 변수의 목적이 무엇인지 명확히 나타내지 않으면 개발 시 어려움을 겪을 수 있다.  
+변수 이름은 해당 변수의 목적을 명확히 표현해야 하며 좋은 변수 이름은 코드의 가독성을 높인다.
+
+---
+
+```js
+// 경과 시간, 단위는 날짜다.
+var d;
+var elapsedTimeInDays;
+```
+
+위 d 변수처럼 명확하지 않는 변수 이름을 사용하면 코드 가동성이 떨어지는 걸 볼 수 있다.
+
+아래의 4가지 유형의 네이밍 컨벤션이 자주 사용된다.
+
+```js
+// (1)
+var firstName;
+
+// (2)
+var first_name;
+
+// (3)
+var FirstName;
+
+// (4)
+var strFirstName;
+var $elem = document.getElementById("App");
+var observable$ = fromEvent(document, "click");
+```
+
+1. 카멜 케이스 (camelCase)
+   - 자바스크립트에서 일반적으로 변수나 함수 이름에서 카멜 케이스를 사용한다.
+2. 스네이크 케이스 (snake_case)
+   - 자바스크립트에서 일반적으로 생성자 함수, 클래스 이름에 파스칼 케이스를 사용한다.
+3. 파스칼 케이스 (PascalCase)
+4. 헝가리언 케이스 (typeHungarianCase)
+
+ECMAScript 사양에 정의되어 있는 객체와 함수들도 카멜 케이스와 파스칼 케이스를 사용하고 있다.  
+따라서 코드 전체의 가독성을 높이려면 카멜 케이스와 파스칼 케이스를 따르는 것이 유리하다.
