@@ -7,7 +7,7 @@
 - [OOP](FE면접질문/OOP/README.md)
 - [함수형 프로그래밍](FE면접질문/함수형%20프로그래밍/README.md)
 
-## [Javascript](Javascript/README.md)
+## Javascript
 
 - [자바스크립트 비동기 처리](Javascript/비동기처리/README.md)
 - [이벤트 버블링과 캡쳐링](Javascript/이벤트%20버블링과%20캡쳐링/README.md)
