@@ -142,3 +142,84 @@ var template = `<section>
   <h1>Template!</h1>
 </section>
 ```
+
+### 6.3.2 표현식 삽입
+
+문자열은 문자열 연산자 **+**를 사용해 연결할 수 있다.  
+피연산자 중 하나 이상이 문자열인 경우 문자열 연결 연산자로 동작한다.
+
+```js
+var first = "Han";
+var last = "yun seong";
+
+console.log("My name is " + first + " " + last + ".");
+```
+
+위 코드는
+My name is Han yun seong. 로 출력된다.
+위 방법은 ES6 이전 방법이고 ES6에서 템플릿 리터럴이라는 방식으로 문자열을 연결할 수 있는데  
+가독성이 좋고 간편하게 문자열을 연결할 수 있다.
+
+```js
+var first = "Han";
+var last = "yun seong";
+
+console.log(`My name is ${first} ${last}.`);
+```
+
+표현식을 삽입할 때 ${ }로 감싸면 된다.  
+이때 반드시 백틱 (`) 내에서 사용해야 한다.
+
+### 6.4 불리언 타입
+
+불리언 타입은 참을 나타내는 true, 거짓을 나타내는 false 2개 밖에 없다.
+
+```js
+var foo = true;
+console.log(foo); // true
+foo = false;
+console.log(foo); // false
+```
+
+### 6.5 undefined 타입
+
+undefined 타입의 값은 undefined가 유일하다.
+
+var 키워드로 선언한 변수는 undefined로 초기화 되는데 변수 선엔 시 확보된 메모리 공간을 할당이 이뤄질 때가지 빈 상태가 아닌 undefinedd로 초기화한다.
+
+```js
+var foo;
+console.log(foo); // undefined
+```
+
+개발자가 의도적으로 할당한 게 아닌 자바스크립트 엔진이 변수를 초기화할 때 사용하는 값이고 만약 변수를 참조했을 때 undefined가 반환되면  
+참조한 변수가 선언 이후에 값이 할당된 적이 없는, 즉 초기화되지 않은 변수라는 걸 알 수 있다.
+
+> ### 선언과 정의
+>
+> undefined를 직역하면 "정의되지 않은"이다. 일반적으로 어떤 대상을 명확하게 규정하는 걸 정의라고 하는데 자바스크립트의 undefined에서 말하는 정의란 변수에 값을 할당하여 변수의 실체를 명확히 하는 것을 말한다.  
+> 자바스크립트의 경우 변수를 선언하면 암묵적으로 정의가 이뤄지기 때문에 다른 언어에 비해 선언과 정의의 구분이 모호하다.
+>
+> ECMAScript 사양에서는 변수는 '선언한다'라고 표현하고, 함수는 '정의한다'라고 표현한다.
+
+### 6.6 null 타입
+
+null 타입의 값은 null 단 한개다.  
+프로그래밍 언어에서 null은 변수에 값이 없다는 것을 의도적으로 명시할 때 사용하는데  
+변수에 null을 할당하는 것은 변수가 이전에 참조하던 값을 더 이상 참조하지 않겠다는 의미다.  
+이전에 할당되어 있던 값에 대한 참조를 명시적으로 제거하는 것을 의미하며, 자바스크립트 엔진은 누구도 참조하지 않는 메모리 공간에 대해 가비지 컬렉션을 수행할 것이다.
+
+함수가 유효한 값을 반환할 수 없는 경우 명시적으로 null을 반환하기도 한다.
+
+```html
+<body>
+  <script>
+    var element = document.querySelector(".myClass");
+    console.log(element); // null
+  </script>
+</body>
+```
+
+### 6.7 심볼 타입
+
+ES6에서 추가된 7번째 타입이다. 변경이 불가능한 원시 타입의 값이며 다른 값과 중복되지 않는 유일무이한 값이다.
