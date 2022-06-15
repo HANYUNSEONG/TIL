@@ -74,7 +74,7 @@ const Results = (
 
 ---
 
-## 1. Headless 기반의 추상화하기
+## 1. Headless UI 기반의 추상화하기
 
 Headless라는 개념을 알아보기 전에 먼저 컴포넌트가 하는 3가지 역할에 대해서 살펴보자
 
@@ -106,6 +106,8 @@ export function Button() {
 
 "어떻게" 보여질지 정의하는 부분은 **디자인**에 의존한다.  
 **디자인**에 의존하는 UI를 컴포넌트가 관리하는 "데이터"와 분리해보면 어떨까?
+
+### 데이터 추상화
 
 예로 달력 컴포넌트를 만든다고 가정하면  
 달력을 구성하는 데이터는 변하지 않지만 UI는 언제든 변경될 수 있다. 여기서 데이터와 UI를 분리해보자.
@@ -146,3 +148,121 @@ UI를 관심사에서 제외하고 데이터만 모듈화 할 수 있는데 이�
 한 가지 문제에만 집중하기 때문에 더 많은 곳에서 사용할 수 있고 다른 변경으로부터 격리시킬 수 있다.
 
 이제 사용자와 상호작용하는 부분을 확인해보자 이번에도 UI와 분리하면 좋을 것 같다.
+
+### 동작 추상화
+
+예를 들어 버튼에 Long Press라는 동작을 정의하려고 한다.  
+이떄 버튼 컴포넌트 내부에 동작을 정의하는 로직이 있으면 컴포넌트가 복잡해진다.
+
+그래서 동작을 hooks로 모듈화해서 추상화하면 이제 보여지는 것에 집중할 수 있다.
+
+아래는 Long Press 동작을 hooks로 모듈화한 예제 코드다.
+
+```ts
+function useLongPress() {
+  return {
+    onKeyDown={(e) => {}},
+    onKeyUp={(e) => {}},
+    onMouseDown={(e) => {}},
+    onMouseUp={(e) => {}},
+  }
+}
+```
+
+이렇게 모듈화를 해놓으면 버튼 컴포넌트가 아닌 다른 컴포넌트에서 Long Press라는 동작을 쉽게 정의할 수 있다.
+
+위에 데이터 추상화, 동작 추상화에서 hooks로 모듈화하는 이야기만 했는데  
+**그 이유는 변경에 유연해지려면 `각 모듈`이 `한 가지 일`만 하는 게 중요하기 때문이다.**
+
+---
+
+## 2. 한 가지 역할만 하기
+
+이번엔 한 가지 역할만 하는 컴포넌트의 **조합**으로 구성되어야 한다는 점에 대해서 알아볼거다
+
+버튼처럼 간단한 컴포넌트는 한 가지 역할을 잘 수행할 수 있지만 복잡한 컴포넌트의 경우는 어떨까?
+
+예를 들어 흔히 볼 수 있는 Select UI를 생각해보자  
+Select UI를 만들다보면 자연스럽게 작은 컴포넌트들을 사용하여 구성하게 된다.
+
+```tsx
+function ReactFrameworkSelect({ defaultValue }) {
+  const [isOpen, open, close] = useBoolean();
+  const [selected, change] = useState(defaultValue);
+
+  return (
+    <>
+      <InputButton label="React Framework”" value={selected} onClick={open} />
+      {isOpen ? (
+        <Options onClose={close}>
+          {options.map((value) => {
+            return (
+              <Button
+                selected={selected === value}
+                onClick={() => change(value)}
+              >
+                {value}
+              </Button>
+            );
+          })}
+        </Options>
+      ) : null}
+    </>
+  );
+}
+```
+
+위 예제 코드는 **변경**이 발생했을 때 제대로 대응하지 못한다.  
+그렇기 때문에 재사용하기도 어려워진다.
+
+예를 들어서 InputButton에 label만 달라져도 재사용이 어렵게 된다.
+만약 InputButton이 아닌 다른 컴포넌트를 사용해야 한다면 어떨까?  
+**저 구조라면 답이 없다.**
+
+저 답 없는 컴포넌트를 4개의 컴포넌트로 분리해서 살려보자  
+분리하는 기준은 담당하는 역할, 데이터를 기준으로 분리한다.
+
+```tsx
+function Select({ label, trigger, value, onChange, options }: Props) {
+  return (
+    <Dropdown label={label} value={value} onChange={onChange}>
+      <Dropdown.Trigger as={trigger} />
+      <Dropdown.Menu>
+        {options.map((option) => (
+          <Dropdown.Item>{option}</Dropdown.Item>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+}
+```
+
+위 예제 코드에서 `Dropdown`은 내부적으로 `Menu`가 보일지 말지 결정한다. `Trigger`와 연결된다.  
+`Item`에서 발생한 _onClick_ 이벤트는 `Dropdown`의 _onChange_ 이벤트로 이어진다.
+
+Select UI를 구성한건데 이걸 가지고 저기 위에 있는 답 없는 컴포넌트를 살릴 수 있다.
+
+```tsx
+function FrameworkSelect() {
+  const {
+    data: { frameworks },
+  } = useFrameworks();
+  const [selected, change] = useState();
+
+  return (
+    <Select
+      trigger={<InputButton value={selected} />}
+      value={selected}
+      onChange={change}
+      options={frameworks}
+    />
+  );
+}
+```
+
+재구성한 코드다.  
+`Select` 컴포넌트와 **trigger**로 전달된 `InputButton` 컴포넌트는 서로의 존재에 대해 알지 못한다.  
+즉 서로의 변경이 서로에게 영향을 끼치지 않게 된 것이다.  
+그럼 각각의 컴포넌트가 변경에 유연해진다. 저기서 **trigger** 부분이 변경되어도 `Select` 컴포넌트 자체는 변경이 없기 때문이다.
+
+이렇게 합성 가능하도록 컴포넌트를 구성하면 **재사용**하기 좋고 **확장**하는 데에도 좋다.
