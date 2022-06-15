@@ -106,3 +106,43 @@ export function Button() {
 
 "어떻게" 보여질지 정의하는 부분은 **디자인**에 의존한다.  
 **디자인**에 의존하는 UI를 컴포넌트가 관리하는 "데이터"와 분리해보면 어떨까?
+
+예로 달력 컴포넌트를 만든다고 가정하면  
+달력을 구성하는 데이터는 변하지 않지만 UI는 언제든 변경될 수 있다. 여기서 데이터와 UI를 분리해보자.
+
+달력에 필요한 데이터를 추상화하여 hooks를 만들어주고  
+hooks에서 제공하는 데이터를 가지고 UI를 구성하기만 하면 된다.
+
+```tsx
+export default function Calendar() {
+  const { headers, body, view } = useCalendar();
+
+  return (
+    <Table>
+      <Thead>
+        <Tr>
+          {headers.weekDays.map(({ key, value }) => {
+            return <Th key={key}>{format(value, ‘E’, { locale })}</Th>
+          })}
+        </Tr>
+      </Thead>
+      <Tbody>
+        {body.value.map(({ key, value: days }) => (
+          <Tr key={key}>
+            {days.map(({ key, value }) => (
+              <Td key={key}>{getDate(value)}</Td>
+            ))}
+          </Tr>
+        ))}
+      </Tbody>
+    </Table>
+  )
+}
+```
+
+달력을 구성할 때 필요한 데이터를 계산해야 하는데 이 역할을 useCalendar hooks에 위임한 것이다.
+
+UI를 관심사에서 제외하고 데이터만 모듈화 할 수 있는데 이런 패턴을 **Headless**라고 한다.  
+한 가지 문제에만 집중하기 때문에 더 많은 곳에서 사용할 수 있고 다른 변경으로부터 격리시킬 수 있다.
+
+이제 사용자와 상호작용하는 부분을 확인해보자 이번에도 UI와 분리하면 좋을 것 같다.
