@@ -266,3 +266,102 @@ function FrameworkSelect() {
 그럼 각각의 컴포넌트가 변경에 유연해진다. 저기서 **trigger** 부분이 변경되어도 `Select` 컴포넌트 자체는 변경이 없기 때문이다.
 
 이렇게 합성 가능하도록 컴포넌트를 구성하면 **재사용**하기 좋고 **확장**하는 데에도 좋다.
+
+이제 조금 더 복잡한 컴포넌트로 넘어가보자
+
+버튼을 누르면 옵션을 선택할 수 있는 모달이 나오고 그 옵션에는 체크박스로 여러가지를 선택할 수 있다.  
+선택을 하고 `적용하기` 버튼을 누르면 선택한 값들이 버튼에 노출되는 기능을 가지고 있다.
+
+UI만 생각해보면 조금 복잡할 수 있지만 데이터를 중심으로 보면 그렇게 복잡하지 않다.  
+위에서 했던 Select UI와 비슷하다 선택하고 선택한 데이터를 보여준다는 점에서 비슷하다고 볼 수 있다.  
+단지 여러개를 선택해야 한다는 점이 추가된 것이다.
+
+```tsx
+function FrameworkSelect({
+  selectedFrameworks,
+  onFrameworkChange,
+  frameworks,
+}: Props) {
+return (
+  <Dropdown value={selectedFrameworks} onChange={onFrameworkChange}>
+    <Dropdown.Trigger
+      as={<Button>{String(selectedFrameworks ?? ‘선택하기’)}</Button>}
+    />
+    <Dropdown.Modal
+      controls={
+        <Flex>
+          <Button type="reset">초기화</Button>
+          <Button type="submit">적용하기</Button>
+        </Flex>
+      }
+    >
+      {frameworks.map(framework => {
+        return <Dropdown.Item>{framework}</Dropdown.Item>;
+      })}
+    </Dropdown.Modal>
+  </Dropdown>
+  );
+}
+```
+
+예제는 위에서 만들었던 Dropdown 컴포넌트를 사용하여 만들었다.
+
+`<Dropdown.Trigger>` props 중 `as`에 `Button` 컴포넌트를 넣어서 메뉴가 보알지 말지 상호작용을 할 수 있다. 그리고 `<Dropdown.Modal>`로 노출되는 메뉴를 분리했다. `<Dropdown.Modal>` props에 controls를 보면 적용하기 버튼이 **submit**이다. 하나의 form으로 바라보고 적용하기 버튼을 클릭하면 **onSubmit** 이벤트가 발생하고 그럼 어떤 옵션을 선택했는지 알 수 있다.
+
+이렇게 한 가지 역할만 하는 컴포넌트들의 조합으로 구성해서 빠르게 변경에 대응할 수 있다.  
+지금까지 Handless 기반으로 추상화를 하고 조합으로 컴포넌트를 표현하는 걸 살펴보았다.  
+이제 레이어링를 알아보자
+
+## 3. 도메인 분리하기
+
+컴포넌트의 인터페이스는 **일반적** 일수록 이해하기 쉽다.  
+컴포넌트 이름과 Props 네이밍을 일반적이게 구성하면 조금 더 이해하기 쉬울 것이다.
+
+```ts
+interface Props {
+  options: Array<{ label: string }>;
+  value?: string[];
+  onChange?: (selecteds: string[]) => void;
+  valueAs: (value?: string[]) => string;
+}
+```
+
+웹 프론트엔드 개발자라면 Select UI에 기본적인 지식이 있을거라고 생각한다.  
+그 기본적인 지식을 바탕으로 컴포넌트의 동작을 예측할 수 있도록 Props를 위에 예제처럼 구성하면  
+"select attribute"와 비슷하게 구성하면 예측하기 쉽다.  
+이로 알 수 있는건 컴포넌트 인터페이스가 **표준**에 가까울수록 많은 사람들이 **쉽게** 이해할 수 있다는 것이다.
+
+## 정리
+
+컴포넌트가 유연하기 위해서 가져야하는 특징 3가지에 대해서 알아보았다.
+
+1. Handless 기반의 추상화하기
+2. 한 가지 역할만 하기
+3. 도메인 분리하기
+
+### 첫번째 팁
+
+컴포넌트를 구현할 때 인터페이스를 먼저 고민해보는 것이 좋을 것 같다.  
+개발하려는 컴포넌트를 이미 있다고 생각하고 사용하듯 작성해보는 것이다.
+
+변경해야할 때 파악해야 하는 것은
+
+1. 의도가 무엇이고
+2. 컴포넌트의 기능은 무엇이고
+3. 어떻게 표현이 되어야 하는가
+
+이렇게 3가지인데 그렇기 때문에 인터페이스를 먼저 정의하는 게 도움이 되었다.
+
+### 두번째 팁
+
+그리고 컴포넌트를 나누는 이유에 대해서도 다시 생각해보는 습관을 갖으면 좋을 것 같다.
+
+나누려는 컴포넌트의 이유가 복잡도를 낮추기 위함인지 아니면 재사용을 하기 위해서인지 꼭 분리해야 하는 컴포넌트인지 고민해 볼 필요가 있다.
+
+우리는 제품을 만들 때 많은 컴포넌트를 개발하게 된다. 잘 만들어 두면 미래의 나에게도 큰 도움이 될 것이고 함께 일하는 동료한테도 도움이 된다.
+
+변경에 유연한 코드는 안정적으로 비즈니스를 운영하면서 빠른 속도를 유지하는데 필수적인 요소다.
+
+---
+
+발표자: 한재엽님([JBEE](https://jbee.io/))
