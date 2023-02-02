@@ -1,5 +1,15 @@
 # Mapped Types - 맵드 타입
 
+- [Mapped Types - 맵드 타입](#mapped-types---맵드-타입)
+  - [Mapped Types란?](#mapped-types란)
+  - [간단한 예제 1](#간단한-예제-1)
+  - [간단한 예제 2](#간단한-예제-2)
+  - [Typescript 내장 유틸리티 타입으로 알아보기](#typescript-내장-유틸리티-타입으로-알아보기)
+    - [Pick](#pick)
+    - [Partial](#partial)
+    - [Readonly](#readonly)
+  - [참고](#참고)
+
 ## Mapped Types란?
 
 기존 타입을 다른 타입으로 변환하여 사용할 수 있도록 한다.
