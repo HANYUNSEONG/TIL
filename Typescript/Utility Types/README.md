@@ -18,6 +18,11 @@
   - [`ThisParameterType<T>`](#thisparametertypet)
   - [`OmitThisParameter<T>`](#omitthisparametert)
   - [`ThisType<T>`](#thistypet)
+  - [내장 문자열 조작 타입](#내장-문자열-조작-타입)
+    - [`Uppercase<StringType>`](#uppercasestringtype)
+    - [`Lowercase<StringType>`](#lowercasestringtype)
+    - [`Capitalize<StringType>`](#capitalizestringtype)
+    - [`Uncapitalize<StringType>`](#uncapitalizestringtype)
   - [참고](#참고)
 
 ## Utility Types?
@@ -394,6 +399,50 @@ obj.moveBy(5, 5);
 위 예제에서 makeObject의 인자로 넘겨지는 methods 객체는 `ThisType<D & M>`을 포함한 문맥적 타입을 가지고 있다.  
 따라서 methods 객체의 메서드 안에 this의 타입은 `{ x: number, y: number } & { moveBy(dx: number, dy: number): number }`다.  
 methods 프로퍼티의 타입이 추론의 대상이며 동시에 메서드 안의 this 타입의 출처이다.
+
+## 내장 문자열 조작 타입
+
+문자열 조작을 돕기 위해서 Typescript에는 문자열 조작에 사용할 수 있는 유틸리티 타입들이 있다.
+
+### `Uppercase<StringType>`
+
+문자열의 각 문자를 대문자로 변환한다.
+
+```ts
+type Greeting = "Hello, world";
+type ShoutyGreeting = Uppercase<Greeting>;
+// "HELLO, WORLD"
+```
+
+### `Lowercase<StringType>`
+
+문자열의 각 문자를 소문자로 변환한다.
+
+```ts
+type Greeting = "Hello, world";
+type ShoutyGreeting = Lowercase<Greeting>;
+// "hello, world"
+```
+
+### `Capitalize<StringType>`
+
+문자열의 첫 번재 문자를 대문자로 변환한다.
+
+```ts
+type Greeting = "hello, world";
+type ShoutyGreeting = Capitalize<Greeting>;
+// "Hello, world"
+```
+
+### `Uncapitalize<StringType>`
+
+문자열의 첫 번재 문자를 소문자로 변환한다.
+
+```ts
+type Greeting = "Hello, world";
+type ShoutyGreeting = Uncapitalize<Greeting>;
+// "hello, world"
+```
 
 ## 참고
 
